@@ -46,13 +46,50 @@ lines += [
     divider('═'),
 ]
 
-# ── Table Summary ─────────────────────────────────────────────────────────────
-lines.append(section("TABLE SUMMARY"))
+# ── Database Summary ──────────────────────────────────────────────────────────
+lines.append(section("DATABASE SUMMARY"))
 lines.append("")
 
 tables = [r[0] for r in conn.execute(
     "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
 )]
+indexes  = conn.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='index'").fetchone()[0]
+total_rows = sum(
+    conn.execute(f"SELECT COUNT(*) FROM \"{t}\"").fetchone()[0] for t in tables
+)
+total_cols = sum(
+    len(conn.execute(f"PRAGMA table_xinfo('{t}')").fetchall()) for t in tables
+)
+fk_count = sum(
+    len(conn.execute(f"PRAGMA foreign_key_list('{t}')").fetchall()) for t in tables
+)
+db_size_mb = os.path.getsize(DB_PATH) / 1_048_576
+
+lines += [
+    f"  {'Tables':<25} {len(tables)}",
+    f"  {'Total Columns':<25} {total_cols}",
+    f"  {'Total Rows':<25} {total_rows:,}",
+    f"  {'Indexes':<25} {indexes}",
+    f"  {'Foreign Keys':<25} {fk_count}",
+    f"  {'File Size':<25} {db_size_mb:.2f} MB",
+    f"  {'SQLite Version':<25} {conn.execute('SELECT sqlite_version()').fetchone()[0]}",
+    "",
+]
+
+# Largest tables
+lines.append(f"  Largest Tables (by row count):")
+table_sizes = sorted(
+    [(t, conn.execute(f"SELECT COUNT(*) FROM \"{t}\"").fetchone()[0]) for t in tables],
+    key=lambda x: x[1], reverse=True
+)
+for t, count in table_sizes:
+    bar = '█' * min(40, int(count / max(r for _, r in table_sizes) * 40))
+    lines.append(f"    {t:<25} {count:>8,}  {bar}")
+lines.append("")
+
+# ── Table Summary ─────────────────────────────────────────────────────────────
+lines.append(section("TABLE SUMMARY"))
+lines.append("")
 
 summary_header = fmt_row(['Table', 'Columns', 'Row Count', 'Primary Key(s)'], [30, 10, 12, 40])
 lines.append('  ' + summary_header)
