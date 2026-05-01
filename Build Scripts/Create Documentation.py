@@ -1,6 +1,6 @@
 """
 db_doc.py — SQLite Database Documentation Generator
-Usage: python3 db_doc.py contoso_v2_10k.db
+Usage: python3 'Create Documentation'.py contoso_v2_10k.db
 
 Outputs a clean schema report to the terminal and saves it as db_doc.txt
 """
