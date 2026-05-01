@@ -1,0 +1,371 @@
+════════════════════════════════════════════════════════════════════════════════════════════════════
+  DATABASE DOCUMENTATION
+  File    : /workspaces/Contoso-DW-10k-Project/Build Scripts/contoso_v2_10k.db
+  Size    : 4.68 MB
+  Created : 2026-05-01 20:48
+════════════════════════════════════════════════════════════════════════════════════════════════════
+
+═════════════════════════════════════════ DATABASE SUMMARY ═════════════════════════════════════════
+
+  Tables                    8
+  Total Columns             96
+  Total Rows                61,403
+  Indexes                   11
+  Foreign Keys              0
+  File Size                 4.68 MB
+  SQLite Version            3.45.1
+
+  Largest Tables (by row count):
+    CurrencyExchange            45,650  ████████████████████████████████████████
+    OrderRows                    3,996  ███
+    Sales                        3,996  ███
+    Product                      2,517  ██
+    Date                         1,826  █
+    Orders                       1,681  █
+    Customer                     1,663  █
+    Store                           74  
+
+
+══════════════════════════════════════════ TABLE SUMMARY ═══════════════════════════════════════════
+
+  Table                           Columns     Row Count     Primary Key(s)                          
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  CurrencyExchange                4           45,650        Date, FromCurrency, ToCurrency          
+  Customer                        24          1,663         CustomerKey                             
+  Date                            17          1,826         DateKey                                 
+  OrderRows                       7           3,996         OrderKey, LineNumber                    
+  Orders                          6           1,681         OrderKey                                
+  Product                         14          2,517         ProductKey                              
+  Sales                           13          3,996         OrderKey, LineNumber                    
+  Store                           11          74            StoreKey                                
+
+═════════════════════════════════════ TABLE: CurrencyExchange ══════════════════════════════════════
+
+  Rows: 45,650
+
+  #     Column                        Type            Nullable    Default               PK  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  0     Date                          TEXT            NOT NULL    —                     1   
+  1     FromCurrency                  TEXT            NOT NULL    —                     2   
+  2     ToCurrency                    TEXT            NOT NULL    —                     3   
+  3     Exchange                      REAL            NOT NULL    —                     —   
+
+  Indexes:
+    UNIQUE   sqlite_autoindex_CurrencyExchange_1  →  (Date, FromCurrency, ToCurrency)
+
+
+═════════════════════════════════════════ TABLE: Customer ══════════════════════════════════════════
+
+  Rows: 1,663
+
+  #     Column                        Type            Nullable    Default               PK  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  0     CustomerKey                   INTEGER         NOT NULL    —                     1   
+  1     GeoAreaKey                    INTEGER         NOT NULL    —                     —   
+  2     StartDT                       TEXT            NULL        —                     —   
+  3     EndDT                         TEXT            NULL        —                     —   
+  4     Continent                     TEXT            NULL        —                     —   
+  5     Gender                        TEXT            NULL        —                     —   
+  6     Title                         TEXT            NULL        —                     —   
+  7     GivenName                     TEXT            NULL        —                     —   
+  8     MiddleInitial                 TEXT            NULL        —                     —   
+  9     Surname                       TEXT            NULL        —                     —   
+  10    StreetAddress                 TEXT            NULL        —                     —   
+  11    City                          TEXT            NULL        —                     —   
+  12    State                         TEXT            NULL        —                     —   
+  13    StateFull                     TEXT            NULL        —                     —   
+  14    ZipCode                       TEXT            NULL        —                     —   
+  15    Country                       TEXT            NULL        —                     —   
+  16    CountryFull                   TEXT            NULL        —                     —   
+  17    Birthday                      TEXT            NOT NULL    —                     —   
+  18    Age                           INTEGER         NOT NULL    —                     —   
+  19    Occupation                    TEXT            NULL        —                     —   
+  20    Company                       TEXT            NULL        —                     —   
+  21    Vehicle                       TEXT            NULL        —                     —   
+  22    Latitude                      REAL            NOT NULL    —                     —   
+  23    Longitude                     REAL            NOT NULL    —                     —   
+
+
+═══════════════════════════════════════════ TABLE: Date ════════════════════════════════════════════
+
+  Rows: 1,826
+
+  #     Column                        Type            Nullable    Default               PK  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  0     Date                          TEXT            NOT NULL    —                     —   
+  1     DateKey                       TEXT            NOT NULL    —                     1   
+  2     Year                          INTEGER         NOT NULL    —                     —   
+  3     YearQuarter                   TEXT            NOT NULL    —                     —   
+  4     YearQuarterNumber             INTEGER         NOT NULL    —                     —   
+  5     Quarter                       TEXT            NOT NULL    —                     —   
+  6     YearMonth                     TEXT            NOT NULL    —                     —   
+  7     YearMonthShort                TEXT            NOT NULL    —                     —   
+  8     YearMonthNumber               INTEGER         NOT NULL    —                     —   
+  9     Month                         TEXT            NOT NULL    —                     —   
+  10    MonthShort                    TEXT            NOT NULL    —                     —   
+  11    MonthNumber                   INTEGER         NOT NULL    —                     —   
+  12    DayofWeek                     TEXT            NOT NULL    —                     —   
+  13    DayofWeekShort                TEXT            NOT NULL    —                     —   
+  14    DayofWeekNumber               INTEGER         NOT NULL    —                     —   
+  15    WorkingDay                    INTEGER         NOT NULL    —                     —   
+  16    WorkingDayNumber              INTEGER         NOT NULL    —                     —   
+
+  Indexes:
+    UNIQUE   sqlite_autoindex_Date_1  →  (DateKey)
+
+
+═════════════════════════════════════════ TABLE: OrderRows ═════════════════════════════════════════
+
+  Rows: 3,996
+
+  #     Column                        Type            Nullable    Default               PK  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  0     OrderKey                      INTEGER         NOT NULL    —                     1   
+  1     LineNumber                    INTEGER         NOT NULL    —                     2   
+  2     ProductKey                    INTEGER         NOT NULL    —                     —   
+  3     Quantity                      INTEGER         NOT NULL    —                     —   
+  4     UnitPrice                     REAL            NOT NULL    —                     —   
+  5     NetPrice                      REAL            NOT NULL    —                     —   
+  6     UnitCost                      REAL            NOT NULL    —                     —   
+
+  Indexes:
+             IX_OrderRows_ProductKey  →  (ProductKey)
+             IX_OrderRows_OrderKey  →  (OrderKey)
+    UNIQUE   sqlite_autoindex_OrderRows_1  →  (OrderKey, LineNumber)
+
+
+══════════════════════════════════════════ TABLE: Orders ═══════════════════════════════════════════
+
+  Rows: 1,681
+
+  #     Column                        Type            Nullable    Default               PK  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  0     OrderKey                      INTEGER         NOT NULL    —                     1   
+  1     CustomerKey                   INTEGER         NOT NULL    —                     —   
+  2     StoreKey                      INTEGER         NOT NULL    —                     —   
+  3     OrderDate                     TEXT            NOT NULL    —                     —   
+  4     DeliveryDate                  TEXT            NOT NULL    —                     —   
+  5     CurrencyCode                  TEXT            NOT NULL    —                     —   
+
+  Indexes:
+             IX_Orders_StoreKey  →  (StoreKey)
+             IX_Orders_CustomerKey  →  (CustomerKey)
+
+
+══════════════════════════════════════════ TABLE: Product ══════════════════════════════════════════
+
+  Rows: 2,517
+
+  #     Column                        Type            Nullable    Default               PK  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  0     ProductKey                    INTEGER         NOT NULL    —                     1   
+  1     ProductCode                   TEXT            NOT NULL    —                     —   
+  2     ProductName                   TEXT            NULL        —                     —   
+  3     Manufacturer                  TEXT            NULL        —                     —   
+  4     Brand                         TEXT            NULL        —                     —   
+  5     Color                         TEXT            NULL        —                     —   
+  6     WeightUnit                    TEXT            NULL        —                     —   
+  7     Weight                        REAL            NULL        —                     —   
+  8     Cost                          REAL            NULL        —                     —   
+  9     Price                         REAL            NULL        —                     —   
+  10    CategoryKey                   INTEGER         NULL        —                     —   
+  11    CategoryName                  TEXT            NULL        —                     —   
+  12    SubCategoryKey                INTEGER         NULL        —                     —   
+  13    SubCategoryName               TEXT            NULL        —                     —   
+
+
+═══════════════════════════════════════════ TABLE: Sales ═══════════════════════════════════════════
+
+  Rows: 3,996
+
+  #     Column                        Type            Nullable    Default               PK  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  0     OrderKey                      INTEGER         NOT NULL    —                     1   
+  1     LineNumber                    INTEGER         NOT NULL    —                     2   
+  2     OrderDate                     TEXT            NOT NULL    —                     —   
+  3     DeliveryDate                  TEXT            NOT NULL    —                     —   
+  4     CustomerKey                   INTEGER         NOT NULL    —                     —   
+  5     StoreKey                      INTEGER         NOT NULL    —                     —   
+  6     ProductKey                    INTEGER         NOT NULL    —                     —   
+  7     Quantity                      INTEGER         NOT NULL    —                     —   
+  8     UnitPrice                     REAL            NOT NULL    —                     —   
+  9     NetPrice                      REAL            NOT NULL    —                     —   
+  10    UnitCost                      REAL            NOT NULL    —                     —   
+  11    CurrencyCode                  TEXT            NOT NULL    —                     —   
+  12    ExchangeRate                  REAL            NOT NULL    —                     —   
+
+  Indexes:
+             IX_Sales_StoreKey  →  (StoreKey)
+             IX_Sales_ProductKey  →  (ProductKey)
+             IX_Sales_CustomerKey  →  (CustomerKey)
+    UNIQUE   sqlite_autoindex_Sales_1  →  (OrderKey, LineNumber)
+
+
+═══════════════════════════════════════════ TABLE: Store ═══════════════════════════════════════════
+
+  Rows: 74
+
+  #     Column                        Type            Nullable    Default               PK  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────
+  0     StoreKey                      INTEGER         NOT NULL    —                     1   
+  1     StoreCode                     INTEGER         NOT NULL    —                     —   
+  2     GeoAreaKey                    INTEGER         NOT NULL    —                     —   
+  3     CountryCode                   TEXT            NULL        —                     —   
+  4     CountryName                   TEXT            NULL        —                     —   
+  5     State                         TEXT            NULL        —                     —   
+  6     OpenDate                      TEXT            NULL        —                     —   
+  7     CloseDate                     TEXT            NULL        —                     —   
+  8     Description                   TEXT            NULL        —                     —   
+  9     SquareMeters                  INTEGER         NULL        —                     —   
+  10    Status                        TEXT            NULL        —                     —   
+
+
+═════════════════════════════════════════ INTEGRITY CHECK ══════════════════════════════════════════
+
+  ok
+
+
+════════════════════════════════════════ FOREIGN KEY CHECK ═════════════════════════════════════════
+
+  No foreign key violations found.
+
+
+═════════════════════════════════ FULL SCHEMA (CREATE STATEMENTS) ══════════════════════════════════
+
+CREATE TABLE "CurrencyExchange"(
+	"Date" TEXT NOT NULL,
+	"FromCurrency" TEXT NOT NULL,
+	"ToCurrency" TEXT NOT NULL,
+	"Exchange" REAL NOT NULL, PRIMARY KEY ("Date", "FromCurrency", "ToCurrency")
+)
+
+CREATE TABLE "Customer"(
+	"CustomerKey" INTEGER NOT NULL,
+	"GeoAreaKey" INTEGER NOT NULL,
+	"StartDT" TEXT NULL,
+	"EndDT" TEXT NULL,
+	"Continent" TEXT NULL,
+	"Gender" TEXT NULL,
+	"Title" TEXT NULL,
+	"GivenName" TEXT NULL,
+	"MiddleInitial" TEXT NULL,
+	"Surname" TEXT NULL,
+	"StreetAddress" TEXT NULL,
+	"City" TEXT NULL,
+	"State" TEXT NULL,
+	"StateFull" TEXT NULL,
+	"ZipCode" TEXT NULL,
+	"Country" TEXT NULL,
+	"CountryFull" TEXT NULL,
+	"Birthday" TEXT NOT NULL,
+	"Age" INTEGER NOT NULL,
+	"Occupation" TEXT NULL,
+	"Company" TEXT NULL,
+	"Vehicle" TEXT NULL,
+	"Latitude" REAL NOT NULL,
+	"Longitude" REAL NOT NULL, PRIMARY KEY ("CustomerKey")
+)
+
+CREATE TABLE "Date"(
+	"Date" TEXT NOT NULL,
+	"DateKey" TEXT NOT NULL,
+	"Year" INTEGER NOT NULL,
+	"YearQuarter" TEXT NOT NULL,
+	"YearQuarterNumber" INTEGER NOT NULL,
+	"Quarter" TEXT NOT NULL,
+	"YearMonth" TEXT NOT NULL,
+	"YearMonthShort" TEXT NOT NULL,
+	"YearMonthNumber" INTEGER NOT NULL,
+	"Month" TEXT NOT NULL,
+	"MonthShort" TEXT NOT NULL,
+	"MonthNumber" INTEGER NOT NULL,
+	"DayofWeek" TEXT NOT NULL,
+	"DayofWeekShort" TEXT NOT NULL,
+	"DayofWeekNumber" INTEGER NOT NULL,
+	"WorkingDay" INTEGER NOT NULL,
+	"WorkingDayNumber" INTEGER NOT NULL, PRIMARY KEY ("DateKey")
+)
+
+CREATE TABLE "OrderRows"(
+	"OrderKey" INTEGER NOT NULL,
+	"LineNumber" INTEGER NOT NULL,
+	"ProductKey" INTEGER NOT NULL,
+	"Quantity" INTEGER NOT NULL,
+	"UnitPrice" REAL NOT NULL,
+	"NetPrice" REAL NOT NULL,
+	"UnitCost" REAL NOT NULL, PRIMARY KEY ("OrderKey", "LineNumber")
+)
+
+CREATE TABLE "Orders"(
+	"OrderKey" INTEGER NOT NULL,
+	"CustomerKey" INTEGER NOT NULL,
+	"StoreKey" INTEGER NOT NULL,
+	"OrderDate" TEXT NOT NULL,
+	"DeliveryDate" TEXT NOT NULL,
+	"CurrencyCode" TEXT NOT NULL, PRIMARY KEY ("OrderKey")
+)
+
+CREATE TABLE "Product"(
+	"ProductKey" INTEGER NOT NULL,
+	"ProductCode" TEXT NOT NULL,
+	"ProductName" TEXT NULL,
+	"Manufacturer" TEXT NULL,
+	"Brand" TEXT NULL,
+	"Color" TEXT NULL,
+	"WeightUnit" TEXT NULL,
+	"Weight" REAL NULL,
+	"Cost" REAL NULL,
+	"Price" REAL NULL,
+	"CategoryKey" INTEGER NULL,
+	"CategoryName" TEXT NULL,
+	"SubCategoryKey" INTEGER NULL,
+	"SubCategoryName" TEXT NULL, PRIMARY KEY ("ProductKey")
+)
+
+CREATE TABLE "Sales"(
+	"OrderKey" INTEGER NOT NULL,
+	"LineNumber" INTEGER NOT NULL,
+	"OrderDate" TEXT NOT NULL,
+	"DeliveryDate" TEXT NOT NULL,
+	"CustomerKey" INTEGER NOT NULL,
+	"StoreKey" INTEGER NOT NULL,
+	"ProductKey" INTEGER NOT NULL,
+	"Quantity" INTEGER NOT NULL,
+	"UnitPrice" REAL NOT NULL,
+	"NetPrice" REAL NOT NULL,
+	"UnitCost" REAL NOT NULL,
+	"CurrencyCode" TEXT NOT NULL,
+	"ExchangeRate" REAL NOT NULL, PRIMARY KEY ("OrderKey", "LineNumber")
+)
+
+CREATE TABLE "Store"(
+	"StoreKey" INTEGER NOT NULL,
+	"StoreCode" INTEGER NOT NULL,
+	"GeoAreaKey" INTEGER NOT NULL,
+	"CountryCode" TEXT NULL,
+	"CountryName" TEXT NULL,
+	"State" TEXT NULL,
+	"OpenDate" TEXT NULL,
+	"CloseDate" TEXT NULL,
+	"Description" TEXT NULL,
+	"SquareMeters" INTEGER NULL,
+	"Status" TEXT NULL, PRIMARY KEY ("StoreKey")
+)
+
+CREATE INDEX "IX_OrderRows_OrderKey" ON "OrderRows" ("OrderKey")
+
+CREATE INDEX "IX_OrderRows_ProductKey" ON "OrderRows" ("ProductKey")
+
+CREATE INDEX "IX_Orders_CustomerKey" ON "Orders" ("CustomerKey")
+
+CREATE INDEX "IX_Orders_StoreKey" ON "Orders" ("StoreKey")
+
+CREATE INDEX "IX_Sales_CustomerKey" ON "Sales" ("CustomerKey")
+
+CREATE INDEX "IX_Sales_ProductKey" ON "Sales" ("ProductKey")
+
+CREATE INDEX "IX_Sales_StoreKey" ON "Sales" ("StoreKey")
+
+════════════════════════════════════════════════════════════════════════════════════════════════════
+  End of documentation — 8 tables
+════════════════════════════════════════════════════════════════════════════════════════════════════
