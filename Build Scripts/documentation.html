@@ -1,0 +1,560 @@
+tables
+------------------------------------
+CurrencyExchange  Date              Orders            Sales           
+Customer          OrderRows         Product           Store           
+SCHEMA
+-----------------------------------
+CREATE TABLE IF NOT EXISTS "Customer"(
+	"CustomerKey" INTEGER NOT NULL,
+	"GeoAreaKey" INTEGER NOT NULL,
+	"StartDT" TEXT NULL,
+	"EndDT" TEXT NULL,
+	"Continent" TEXT NULL,
+	"Gender" TEXT NULL,
+	"Title" TEXT NULL,
+	"GivenName" TEXT NULL,
+	"MiddleInitial" TEXT NULL,
+	"Surname" TEXT NULL,
+	"StreetAddress" TEXT NULL,
+	"City" TEXT NULL,
+	"State" TEXT NULL,
+	"StateFull" TEXT NULL,
+	"ZipCode" TEXT NULL,
+	"Country" TEXT NULL,
+	"CountryFull" TEXT NULL,
+	"Birthday" TEXT NOT NULL,
+	"Age" INTEGER NOT NULL,
+	"Occupation" TEXT NULL,
+	"Company" TEXT NULL,
+	"Vehicle" TEXT NULL,
+	"Latitude" REAL NOT NULL,
+	"Longitude" REAL NOT NULL, PRIMARY KEY ("CustomerKey")
+);
+CREATE TABLE IF NOT EXISTS "Product"(
+	"ProductKey" INTEGER NOT NULL,
+	"ProductCode" TEXT NOT NULL,
+	"ProductName" TEXT NULL,
+	"Manufacturer" TEXT NULL,
+	"Brand" TEXT NULL,
+	"Color" TEXT NULL,
+	"WeightUnit" TEXT NULL,
+	"Weight" REAL NULL,
+	"Cost" REAL NULL,
+	"Price" REAL NULL,
+	"CategoryKey" INTEGER NULL,
+	"CategoryName" TEXT NULL,
+	"SubCategoryKey" INTEGER NULL,
+	"SubCategoryName" TEXT NULL, PRIMARY KEY ("ProductKey")
+);
+CREATE TABLE IF NOT EXISTS "CurrencyExchange"(
+	"Date" TEXT NOT NULL,
+	"FromCurrency" TEXT NOT NULL,
+	"ToCurrency" TEXT NOT NULL,
+	"Exchange" REAL NOT NULL, PRIMARY KEY ("Date", "FromCurrency", "ToCurrency")
+);
+CREATE TABLE IF NOT EXISTS "Store"(
+	"StoreKey" INTEGER NOT NULL,
+	"StoreCode" INTEGER NOT NULL,
+	"GeoAreaKey" INTEGER NOT NULL,
+	"CountryCode" TEXT NULL,
+	"CountryName" TEXT NULL,
+	"State" TEXT NULL,
+	"OpenDate" TEXT NULL,
+	"CloseDate" TEXT NULL,
+	"Description" TEXT NULL,
+	"SquareMeters" INTEGER NULL,
+	"Status" TEXT NULL, PRIMARY KEY ("StoreKey")
+);
+CREATE TABLE IF NOT EXISTS "Date"(
+	"Date" TEXT NOT NULL,
+	"DateKey" TEXT NOT NULL,
+	"Year" INTEGER NOT NULL,
+	"YearQuarter" TEXT NOT NULL,
+	"YearQuarterNumber" INTEGER NOT NULL,
+	"Quarter" TEXT NOT NULL,
+	"YearMonth" TEXT NOT NULL,
+	"YearMonthShort" TEXT NOT NULL,
+	"YearMonthNumber" INTEGER NOT NULL,
+	"Month" TEXT NOT NULL,
+	"MonthShort" TEXT NOT NULL,
+	"MonthNumber" INTEGER NOT NULL,
+	"DayofWeek" TEXT NOT NULL,
+	"DayofWeekShort" TEXT NOT NULL,
+	"DayofWeekNumber" INTEGER NOT NULL,
+	"WorkingDay" INTEGER NOT NULL,
+	"WorkingDayNumber" INTEGER NOT NULL, PRIMARY KEY ("DateKey")
+);
+CREATE TABLE IF NOT EXISTS "Sales"(
+	"OrderKey" INTEGER NOT NULL,
+	"LineNumber" INTEGER NOT NULL,
+	"OrderDate" TEXT NOT NULL,
+	"DeliveryDate" TEXT NOT NULL,
+	"CustomerKey" INTEGER NOT NULL,
+	"StoreKey" INTEGER NOT NULL,
+	"ProductKey" INTEGER NOT NULL,
+	"Quantity" INTEGER NOT NULL,
+	"UnitPrice" REAL NOT NULL,
+	"NetPrice" REAL NOT NULL,
+	"UnitCost" REAL NOT NULL,
+	"CurrencyCode" TEXT NOT NULL,
+	"ExchangeRate" REAL NOT NULL, PRIMARY KEY ("OrderKey", "LineNumber")
+);
+CREATE TABLE IF NOT EXISTS "OrderRows"(
+	"OrderKey" INTEGER NOT NULL,
+	"LineNumber" INTEGER NOT NULL,
+	"ProductKey" INTEGER NOT NULL,
+	"Quantity" INTEGER NOT NULL,
+	"UnitPrice" REAL NOT NULL,
+	"NetPrice" REAL NOT NULL,
+	"UnitCost" REAL NOT NULL, PRIMARY KEY ("OrderKey", "LineNumber")
+);
+CREATE TABLE IF NOT EXISTS "Orders"(
+	"OrderKey" INTEGER NOT NULL,
+	"CustomerKey" INTEGER NOT NULL,
+	"StoreKey" INTEGER NOT NULL,
+	"OrderDate" TEXT NOT NULL,
+	"DeliveryDate" TEXT NOT NULL,
+	"CurrencyCode" TEXT NOT NULL, PRIMARY KEY ("OrderKey")
+);
+CREATE INDEX "IX_OrderRows_OrderKey" ON "OrderRows" ("OrderKey");
+CREATE INDEX "IX_OrderRows_ProductKey" ON "OrderRows" ("ProductKey");
+CREATE INDEX "IX_Orders_CustomerKey" ON "Orders" ("CustomerKey");
+CREATE INDEX "IX_Orders_StoreKey" ON "Orders" ("StoreKey");
+CREATE INDEX "IX_Sales_CustomerKey" ON "Sales" ("CustomerKey");
+CREATE INDEX "IX_Sales_ProductKey" ON "Sales" ("ProductKey");
+CREATE INDEX "IX_Sales_StoreKey" ON "Sales" ("StoreKey");
+TABLE INFO
+-----------------------------------
+<TR><TH>integrity_check</TH>
+</TR>
+<TR><TD>ok</TD>
+</TR>
+<TR><TH>cid</TH>
+<TH>name</TH>
+<TH>type</TH>
+<TH>notnull</TH>
+<TH>dflt_value</TH>
+<TH>pk</TH>
+</TR>
+<TR><TD>0</TD>
+<TD>OrderKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>1</TD>
+</TR>
+<TR><TD>1</TD>
+<TD>CustomerKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>2</TD>
+<TD>StoreKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>3</TD>
+<TD>OrderDate</TD>
+<TD>TEXT</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>4</TD>
+<TD>DeliveryDate</TD>
+<TD>TEXT</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>5</TD>
+<TD>CurrencyCode</TD>
+<TD>TEXT</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+CUSTOMER
+---------------------------------
+<TR><TH>cid</TH>
+<TH>name</TH>
+<TH>type</TH>
+<TH>notnull</TH>
+<TH>dflt_value</TH>
+<TH>pk</TH>
+</TR>
+<TR><TD>0</TD>
+<TD>CustomerKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>1</TD>
+</TR>
+<TR><TD>1</TD>
+<TD>GeoAreaKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>2</TD>
+<TD>StartDT</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>3</TD>
+<TD>EndDT</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>4</TD>
+<TD>Continent</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>5</TD>
+<TD>Gender</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>6</TD>
+<TD>Title</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>7</TD>
+<TD>GivenName</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>8</TD>
+<TD>MiddleInitial</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>9</TD>
+<TD>Surname</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>10</TD>
+<TD>StreetAddress</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>11</TD>
+<TD>City</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>12</TD>
+<TD>State</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>13</TD>
+<TD>StateFull</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>14</TD>
+<TD>ZipCode</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>15</TD>
+<TD>Country</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>16</TD>
+<TD>CountryFull</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>17</TD>
+<TD>Birthday</TD>
+<TD>TEXT</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>18</TD>
+<TD>Age</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>19</TD>
+<TD>Occupation</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>20</TD>
+<TD>Company</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>21</TD>
+<TD>Vehicle</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>22</TD>
+<TD>Latitude</TD>
+<TD>REAL</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>23</TD>
+<TD>Longitude</TD>
+<TD>REAL</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TH>cid</TH>
+<TH>name</TH>
+<TH>type</TH>
+<TH>notnull</TH>
+<TH>dflt_value</TH>
+<TH>pk</TH>
+</TR>
+<TR><TD>0</TD>
+<TD>OrderKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>1</TD>
+</TR>
+<TR><TD>1</TD>
+<TD>LineNumber</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>2</TD>
+</TR>
+<TR><TD>2</TD>
+<TD>OrderDate</TD>
+<TD>TEXT</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>3</TD>
+<TD>DeliveryDate</TD>
+<TD>TEXT</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>4</TD>
+<TD>CustomerKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>5</TD>
+<TD>StoreKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>6</TD>
+<TD>ProductKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>7</TD>
+<TD>Quantity</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>8</TD>
+<TD>UnitPrice</TD>
+<TD>REAL</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>9</TD>
+<TD>NetPrice</TD>
+<TD>REAL</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>10</TD>
+<TD>UnitCost</TD>
+<TD>REAL</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>11</TD>
+<TD>CurrencyCode</TD>
+<TD>TEXT</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>12</TD>
+<TD>ExchangeRate</TD>
+<TD>REAL</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TH>cid</TH>
+<TH>name</TH>
+<TH>type</TH>
+<TH>notnull</TH>
+<TH>dflt_value</TH>
+<TH>pk</TH>
+</TR>
+<TR><TD>0</TD>
+<TD>ProductKey</TD>
+<TD>INTEGER</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>1</TD>
+</TR>
+<TR><TD>1</TD>
+<TD>ProductCode</TD>
+<TD>TEXT</TD>
+<TD>1</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>2</TD>
+<TD>ProductName</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>3</TD>
+<TD>Manufacturer</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>4</TD>
+<TD>Brand</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>5</TD>
+<TD>Color</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>6</TD>
+<TD>WeightUnit</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>7</TD>
+<TD>Weight</TD>
+<TD>REAL</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>8</TD>
+<TD>Cost</TD>
+<TD>REAL</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>9</TD>
+<TD>Price</TD>
+<TD>REAL</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>10</TD>
+<TD>CategoryKey</TD>
+<TD>INTEGER</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>11</TD>
+<TD>CategoryName</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>12</TD>
+<TD>SubCategoryKey</TD>
+<TD>INTEGER</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
+<TR><TD>13</TD>
+<TD>SubCategoryName</TD>
+<TD>TEXT</TD>
+<TD>0</TD>
+<TD></TD>
+<TD>0</TD>
+</TR>
